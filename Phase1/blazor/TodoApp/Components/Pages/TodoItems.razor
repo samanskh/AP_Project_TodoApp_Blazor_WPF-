@@ -1,0 +1,142 @@
+@page "/todoitems"
+@inject IApiService ApiService
+<h3>Todo Tasks</h3>
+
+<button @onclick="ShowAddItemModal">Add Item</button>
+
+@if (showAddItemModal)
+{
+    <div>
+        <input type="text" @bind="newTask.Name" placeholder="Task Name" />
+        <input type="datetime-local" @bind="newTask.DueDate" />
+        <input type="checkbox" @bind="newTask.IsDone" /> Done
+        <input type="checkbox" @bind="newTask.IsStarred" /> Starred
+        @* <button @onclick="() => RefreshLists()">Refresh Lists</button> *@
+        <select @bind="newTask.ListId">
+            @foreach (var list in todoLists)
+            {
+                <option value="@list.Id">@list.Name</option>
+            }
+        </select>
+        <button @onclick="SaveItem">Add</button>
+    </div>
+}
+
+<ul>
+    @foreach (var item in todoItems)
+    {
+        <li>
+            @item.Name 
+            <input type="datetime-local" @bind="item.DueDate" />
+            <p>Done<input type="checkbox" @bind="item.IsDone" /></p>
+            <p>Starred<input type="checkbox" @bind="item.IsStarred" /></p>
+            @* <button @onclick="() => RefreshLists()">Refresh Lists</button> *@
+            <select @bind="item.ListId">
+                @foreach (var list in todoLists)
+                {
+                    <option value="@list.Id">@list.Name</option>
+                }
+            </select>
+            <div>
+            <button @onclick="() => Edit(item)">Edit</button>
+            <button @onclick="() => DeleteItem(item.Id)">Delete</button>
+            </div>
+        </li>
+    }
+</ul>
+
+
+<h3>Todo Lists</h3>
+
+<button @onclick="ShowAddListModal">Add List</button>
+
+@if (showAddListModal)
+{
+    <div>
+        <input type="text" @bind="newList.Name" placeholder="List Name" />
+        <button @onclick="SaveList">Add</button>
+    </div>
+}
+
+<ul>
+    @foreach (var list in todoLists)
+    {
+        <li>
+            @list.Name
+            <button @onclick="() => DeleteList(list.Id)">Delete</button>
+        </li>
+    }
+</ul>
+
+@code {
+    private List<TodoTask> todoItems = new List<TodoTask>();
+    private List<TodoList> todoLists = new List<TodoList>();
+    private TodoTask newTask = new TodoTask();
+    private TodoList newList = new TodoList();
+    private bool showAddItemModal = false;
+    private bool showAddListModal = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        todoLists = (await ApiService.GetTodoLists()).ToList();
+        todoItems = (await ApiService.GetTasks()).ToList();
+    }
+
+    private void ShowAddItemModal()
+    {
+        showAddItemModal = !showAddItemModal;
+        newTask = new TodoTask();
+    }
+
+    private void CloseAddItemModal()
+    {
+        showAddItemModal = false;
+    }
+
+    private async Task SaveItem()
+    {
+        await ApiService.AddTask(newTask);
+        todoItems = (await ApiService.GetTasks()).ToList();
+        CloseAddItemModal();
+    }
+
+    private async Task DeleteItem(int id)
+    {
+        await ApiService.DeleteTask(id);
+        todoItems = (await ApiService.GetTasks()).ToList();
+    }
+    private async Task Edit(TodoTask item)
+    {
+        await ApiService.UpdateTask(item);
+        todoItems = (await ApiService.GetTasks()).ToList();
+    }
+    @* private async Task RefreshLists()
+    {
+        todoLists = (await ApiService.GetTodoLists()).ToList();
+    } *@
+    private void ShowAddListModal()
+    {
+        showAddListModal = !showAddListModal;
+        newList = new TodoList();
+    }
+
+    private void CloseAddListModal()
+    {
+        showAddListModal = false;
+    }
+
+    private async Task SaveList()
+    {
+        await ApiService.AddList(newList);
+        todoLists = (await ApiService.GetTodoLists()).ToList();
+        CloseAddListModal();
+    }
+
+    private async Task DeleteList(int id)
+    {
+        await ApiService.DeleteList(id);
+        todoLists = (await ApiService.GetTodoLists()).ToList();
+    }
+}
+

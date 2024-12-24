@@ -1,0 +1,46 @@
+{
+  "todoLists": [
+    {
+      "id": 2,
+      "name": "list 3"
+    },
+    {
+      "id": 3,
+      "name": "new test"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 2,
+      "name": "task2 list1",
+      "dueDate": "2024-05-22T09:17:28.061",
+      "isDone": false,
+      "isStarred": false,
+      "listId": 2
+    },
+    {
+      "id": 3,
+      "name": "task new",
+      "dueDate": "0001-01-11T00:00:00",
+      "isDone": true,
+      "isStarred": false,
+      "listId": 2
+    },
+    {
+      "id": 4,
+      "name": "task test",
+      "dueDate": "0001-01-01T00:00:00",
+      "isDone": false,
+      "isStarred": true,
+      "listId": 2
+    },
+    {
+      "id": 5,
+      "name": "task testttt",
+      "dueDate": "0001-01-01T00:00:00",
+      "isDone": true,
+      "isStarred": true,
+      "listId": 3
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+﻿<Window x:Class="TodoApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TodoApp2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="auto" Width="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <!-- Lists -->
+        <StackPanel Grid.Column="0" Margin="10">
+            <StackPanel x:Name="ListSection" Grid.Column="0" Margin="10">
+                <TextBlock Text="Lists" FontSize="16" FontWeight="Bold" />
+                <ListBox ItemsSource="{Binding TodoLists}"
+                         DisplayMemberPath="Name"
+                         SelectedItem="{Binding SelectedList}"/>
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <TextBox Width="200" Margin="5" Text="{Binding NewListName}" />
+                    <Button Content="Add List" Width="75" Margin="5" Click="AddList_Click" />
+                    <Button Content="Remove List" Width="75" Margin="5" Click="RemoveList_Click" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="ListSection2" Grid.Column="0" Margin="10">
+                <TextBlock Text="Existing Lists" FontSize="16" FontWeight="Bold" />
+                <ListBox ItemsSource="{Binding TodoLists}"
+                         DisplayMemberPath="Name"
+                         SelectedItem="{Binding SelectedList}"/>
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <TextBox Width="200" Margin="5" Text="{Binding SelectedList.Name}" />
+                    <Button Content="Update List" Width="75" Margin="5" Click="UpdateList_Click" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+        <!-- Tasks -->
+        <StackPanel Grid.Column="1" Margin="10">
+            <TextBlock Text="Tasks" FontSize="16" FontWeight="Bold" />
+            <StackPanel x:Name="TaskSection2" Orientation="Vertical" Margin="5">
+                <TextBox Width="200" Margin="5" Text="{Binding NewTaskName}" />
+                <CheckBox Content="Starred" Margin="5" IsChecked="{Binding IsNewTaskStarred}" />
+                <CheckBox Content="Completed" Margin="5" IsChecked="{Binding IsNewTaskCompleted}" />
+                <ComboBox Width="200" Margin="5" SelectedValue="{Binding NewListId}" 
+              ItemsSource="{Binding ListViewModel.TodoLists, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+              DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                <DatePicker Width="200" Margin="5" SelectedDate="{Binding NewTaskDueDate}" />
+                <Button Content="Add Task" Width="75" Margin="5" Click="AddTask_Click" />
+            </StackPanel>
+
+            <!--test-->
+                <StackPanel x:Name="TaskSection" Grid.Column="1" Margin="10">
+                <TextBlock Text="Existing Tasks" FontSize="16" FontWeight="Bold" />
+                <ListBox ItemsSource="{Binding Tasks}" 
+                 SelectedItem="{Binding SelectedTask}" 
+                 DisplayMemberPath="Name" 
+                 SelectedValuePath="Id" />
+                <StackPanel Orientation="Vertical" Margin="5">
+                    <TextBox Width="200" Margin="5" Text="{Binding SelectedTask.Name}" />
+                    <CheckBox Content="Starred" Margin="5" IsChecked="{Binding SelectedTask.IsStarred}" />
+                    <CheckBox Content="Completed" Margin="5" IsChecked="{Binding SelectedTask.IsCompleted}" />
+                    <ComboBox Width="200" Margin="5" SelectedValue="{Binding SelectedTask.ListId}" 
+                        ItemsSource="{Binding ListViewModel.TodoLists, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                        DisplayMemberPath="Name" SelectedValuePath="Id"/>
+                    <DatePicker Width="200" Margin="5" SelectedDate="{Binding SelectedTask.DueDate}" />
+                    <!--<Button Content="Add Task" Width="75" Margin="5" Click="AddTask_Click" />-->
+                    <Button Content="Update Task" Width="75" Margin="5" Click="UpdateTask_Click" />
+                    <Button Content="Remove Task" Width="75" Margin="5" Click="RemoveTask_Click" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>

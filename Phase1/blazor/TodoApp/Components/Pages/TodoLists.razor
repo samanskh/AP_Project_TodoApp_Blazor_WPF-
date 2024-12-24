@@ -1,0 +1,60 @@
+@* @page "/todolists"
+@inject IApiService ApiService
+
+<h3>Todo Lists</h3>
+
+<button @onclick="ShowAddListModal">Add List</button>
+
+@if (showAddListModal)
+{
+    <div>
+        <input type="text" @bind="newList.Name" placeholder="List Name" />
+        <button @onclick="SaveList">Add</button>
+    </div>
+}
+
+<ul>
+    @foreach (var list in todoLists)
+    {
+        <li>
+            @list.Name
+            <button @onclick="() => DeleteList(list.Id)">Delete</button>
+        </li>
+    }
+</ul>
+
+
+@code {
+    public List<TodoList> todoLists = new List<TodoList>();
+    private TodoList newList = new TodoList();
+    private bool showAddListModal = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        todoLists = (await ApiService.GetTodoLists()).ToList();
+    }
+
+    private void ShowAddListModal()
+    {
+        showAddListModal = !showAddListModal;
+        newList = new TodoList();
+    }
+
+    private void CloseAddListModal()
+    {
+        showAddListModal = false;
+    }
+
+    private async Task SaveList()
+    {
+        await ApiService.AddList(newList);
+        todoLists = (await ApiService.GetTodoLists()).ToList();
+        CloseAddListModal();
+    }
+
+    private async Task DeleteList(int id)
+    {
+        await ApiService.DeleteList(id);
+        todoLists = (await ApiService.GetTodoLists()).ToList();
+    }
+} *@

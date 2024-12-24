@@ -1,0 +1,70 @@
+{
+  "todoLists": [
+    {
+      "id": 1,
+      "name": "todo list1"
+    },
+    {
+      "id": 2,
+      "name": "todo list2"
+    },
+    {
+      "id": 3,
+      "name": "test"
+    },
+    {
+      "id": 4,
+      "name": "test 2"
+    },
+    {
+      "id": 5,
+      "name": "test 3"
+    },
+    {
+      "id": 6,
+      "name": "list new"
+    },
+    {
+      "id": 7,
+      "name": "list new 2"
+    },
+    {
+      "id": 8,
+      "name": "list very new"
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1,
+      "name": "task1 list1 ",
+      "isStarred": true,
+      "isCompleted": true,
+      "listId": 5,
+      "dueDate": "2024-05-22T09:17:28.061"
+    },
+    {
+      "id": 2,
+      "name": "task2 list1",
+      "isStarred": false,
+      "isCompleted": false,
+      "listId": 2,
+      "dueDate": "2024-05-22T09:17:28.061"
+    },
+    {
+      "id": 3,
+      "name": "tasks",
+      "isStarred": true,
+      "isCompleted": true,
+      "listId": 1,
+      "dueDate": "0001-01-01T00:00:00"
+    },
+    {
+      "id": 4,
+      "name": "test new",
+      "isStarred": true,
+      "isCompleted": true,
+      "listId": 2,
+      "dueDate": "0001-01-06T00:00:00"
+    }
+  ]
+}
